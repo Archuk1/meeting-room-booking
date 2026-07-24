@@ -36,3 +36,7 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+
+
+
+**/skills-lock.json
