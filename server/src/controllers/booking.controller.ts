@@ -8,6 +8,11 @@ export async function getBookings(req: Request, res: Response): Promise<void> {
   res.status(200).json({ bookings });
 }
 
+export async function getBooking(req: Request, res: Response): Promise<void> {
+  const booking = await bookingService.getBookingById(getParam(req, "id"));
+  res.status(200).json({ booking });
+}
+
 export async function createBooking(req: Request, res: Response): Promise<void> {
   const booking = await bookingService.createBooking(req.user!.id, req.body);
   res.status(201).json({ booking });

@@ -27,7 +27,10 @@ export async function getRoomById(roomId: string) {
       createdBy: { select: { id: true, name: true, email: true } },
       members: { include: { user: { select: { id: true, name: true, email: true } } } },
       bookings: {
-        include: { user: { select: { id: true, name: true, email: true } } },
+        include: {
+          user: { select: { id: true, name: true, email: true } },
+          room: { select: { id: true, name: true } },
+        },
         orderBy: { startTime: "asc" },
       },
     },
