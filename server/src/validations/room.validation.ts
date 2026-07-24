@@ -8,7 +8,7 @@ export const createRoomSchema = z.object({
 export const updateRoomSchema = createRoomSchema.partial();
 
 export const addMemberSchema = z.object({
-  email: z.string().email("Некоректний email"),
+  email: z.email("Некоректний email"),
   role: z.enum(["ADMIN", "USER"]).optional(),
 });
 

@@ -31,3 +31,8 @@ export async function addMember(req: Request, res: Response): Promise<void> {
   const member = await roomService.addMember(getParam(req, "id"), req.body);
   res.status(201).json({ member });
 }
+
+export async function joinRoom(req: Request, res: Response): Promise<void> {
+  const member = await roomService.joinRoom(getParam(req, "id"), req.user!.id);
+  res.status(201).json({ member });
+}

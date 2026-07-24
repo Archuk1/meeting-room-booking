@@ -91,6 +91,22 @@ export async function addMember(roomId: string, input: AddMemberInput) {
   });
 }
 
+export async function joinRoom(roomId: string, userId: string) {
+  await ensureRoomExists(roomId);
+
+  const existingMember = await prisma.roomMember.findUnique({
+    where: { roomId_userId: { roomId, userId } },
+  });
+  if (existingMember) {
+    throw new ConflictError("Ви вже є учасником кімнати");
+  }
+
+  return prisma.roomMember.create({
+    data: { roomId, userId, role: RoomRole.USER },
+    include: { user: { select: { id: true, name: true, email: true } } },
+  });
+}
+
 async function ensureRoomExists(roomId: string): Promise<void> {
   const room = await prisma.meetingRoom.findUnique({ where: { id: roomId } });
   if (!room) {

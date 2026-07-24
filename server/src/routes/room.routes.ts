@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { RoomRole } from "@prisma/client";
-import * as roomController from "../controllers/room.controller.js";
+import {getRooms, getRoom, createRoom, updateRoom, deleteRoom, addMember, joinRoom} from "../controllers/room.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { requireRoomRole } from "../middleware/role.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
@@ -10,11 +10,12 @@ const router = Router();
 
 router.use(authMiddleware);
 
-router.get("/", roomController.getRooms);
-router.get("/:id", roomController.getRoom);
-router.post("/", validate(createRoomSchema), roomController.createRoom);
-router.put("/:id", requireRoomRole(RoomRole.ADMIN), validate(updateRoomSchema), roomController.updateRoom);
-router.delete("/:id", requireRoomRole(RoomRole.ADMIN), roomController.deleteRoom);
-router.post("/:id/members", requireRoomRole(RoomRole.ADMIN), validate(addMemberSchema), roomController.addMember);
+router.get("/", getRooms);
+router.get("/:id", getRoom);
+router.post("/", validate(createRoomSchema), createRoom);
+router.put("/:id", requireRoomRole(RoomRole.ADMIN), validate(updateRoomSchema), updateRoom);
+router.delete("/:id", requireRoomRole(RoomRole.ADMIN), deleteRoom);
+router.post("/:id/members", requireRoomRole(RoomRole.ADMIN), validate(addMemberSchema), addMember);
+router.post("/:id/join", joinRoom);
 
 export default router;
